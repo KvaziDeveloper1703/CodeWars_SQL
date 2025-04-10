@@ -1,21 +1,27 @@
 /*
-You should simply determine whether a given year is a leap year or not.
+You are given a table called "years", which contains a list of years in the column "year".
+Your task is to determine whether each year is a leap year according to the following rules:
++ A year is a leap year if it is divisible by 4;
++ However, if the year is divisible by 100, it is not a leap year;
++ But if the year is divisible by 400, it is a leap year regardless of rule 2.
 
-Leap year rules:
-+ A year divisible by 4 → is a leap year;
-+ BUT a year divisible by 100 → is NOT a leap year;
-+ BUT a year divisible by 400 → is a leap year.
+For each year in the table, return:
++ year — the year itself;
++ is_leap — a boolean value indicating whether the year is a leap year.
 
-Tested years are in the range 1600 ≤ year ≤ 4000.
+The output should be ordered in ascending order by year.
 
-Вам нужно определить, является ли заданный год високосным или нет.
+Вам дана таблица с названием "years", которая содержит список лет в столбце "year".
+Ваша задача — определить, является ли каждый год високосным, согласно следующим правилам:
++ Год является високосным, если он делится на 4;
++ Однако если год делится на 100, то он не является високосным;
++ Но если год делится на 400, то он является високосным, несмотря на предыдущее правило.
 
-Правила определения високосного года:
-+ Год делится на 4 → високосный;
-+ НО если год делится на 100, то он не високосный;
-+ НО если год делится на 400, то он всё же високосный.
+Для каждого года в таблице необходимо вернуть:
++ year — сам год;
++ is_leap — логическое значение, указывающее, является ли год високосным.
 
-Годы находятся в диапазоне 1600 ≤ год ≤ 4000.
+Результат должен быть отсортирован по возрастанию года.
 
 https://www.codewars.com/kata/526c7363236867513f0005ca
 */
