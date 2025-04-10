@@ -1,7 +1,9 @@
 /*
-Write a function that converts the input string to uppercase.
+Write a script that converts the input string to uppercase.
 
-Напишите функцию, которая преобразует входную строку в верхний регистр.
+Напишите инструкцию, которая преобразует входную строку в верхний регистр.
+
+https://www.codewars.com/kata/57a0556c7cb1f31ab3000ad7
 */
 
 SELECT s, UPPER(s) AS res
