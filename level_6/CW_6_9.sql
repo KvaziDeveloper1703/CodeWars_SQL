@@ -25,9 +25,10 @@ Order the results by team alphabetically.
 */
 
 SELECT *
-FROM employees
+FROM employees AS employees_current
 WHERE NOT EXISTS (  SELECT 1
-                    FROM employees
-                    WHERE employees.team = employees.team AND employees.birth_date > employees.birth_date
+                    FROM employees AS employees_other
+                    WHERE employees_other.team = employees_current.team
+                    AND employees_other.birth_date > employees_current.birth_date
                 )
-ORDER BY team ASC;
+ORDER BY employees_current.team ASC;
