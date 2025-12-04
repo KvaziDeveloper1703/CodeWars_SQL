@@ -30,8 +30,8 @@ Your query must return:
     - name
 
 Запрос должен вернуть:
-    - все столбцы из таблицы products
-    - название компании из таблицы companies под именем company_name
+    - все столбцы из таблицы products;
+    - название компании из таблицы companies под именем company_name.
 */
 
 SELECT products.*, companies.name AS company_name
