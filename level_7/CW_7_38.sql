@@ -39,11 +39,9 @@ Requirements:
 */
 
 SELECT all_clients.client_id, COUNT(DISTINCT sibling_clients.client_id) AS num_siblings
-FROM (  SELECT DISTINCT client_id
-        FROM client_parents) AS all_clients
+FROM (SELECT DISTINCT client_id FROM client_parents) AS all_clients
 LEFT JOIN client_parents AS client_parent_links ON client_parent_links.client_id = all_clients.client_id
 LEFT JOIN client_parents AS potential_sibling_parent_links ON client_parent_links.parent_id = potential_sibling_parent_links.parent_id AND potential_sibling_parent_links.client_id <> client_parent_links.client_id
-LEFT JOIN ( SELECT DISTINCT client_id
-            FROM client_parents) AS sibling_clients ON sibling_clients.client_id = potential_sibling_parent_links.client_id
+LEFT JOIN (SELECT DISTINCT client_id FROM client_parents) AS sibling_clients ON sibling_clients.client_id = potential_sibling_parent_links.client_id
 GROUP BY all_clients.client_id
 ORDER BY all_clients.client_id ASC;
