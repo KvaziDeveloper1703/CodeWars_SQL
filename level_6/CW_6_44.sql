@@ -66,15 +66,27 @@ Order by transaction DESC.
 По transaction по убыванию.
 */
 
-WITH ordered_transactions AS (SELECT transaction, name, receipt, datetime, ROW_NUMBER() OVER (PARTITION BY transaction ORDER BY datetime) AS transaction_order FROM hotel_transactions)
-SELECT transaction, name, CONCAT(receipt, ' (', datetime::text, ')') AS initial_booking,
+WITH ordered_transactions AS (
+    SELECT transaction, name, receipt, datetime,
+        ROW_NUMBER() OVER (
+            PARTITION BY transaction
+            ORDER BY datetime
+        ) AS transaction_order
+    FROM hotel_transactions
+)
+SELECT transaction, name,
+    MAX(
+        CASE
+            WHEN transaction_order = 1
+            THEN receipt || ' (' || datetime::text || ')'
+        END
+    ) AS initial_booking,
     MAX(
         CASE
             WHEN transaction_order = 2
-            THEN CONCAT(receipt, ' (', datetime::text, ')')
+            THEN receipt || ' (' || datetime::text || ')'
         END
     ) AS additional_services
 FROM ordered_transactions
-WHERE transaction_order IN (1, 2)
-GROUP BY transaction, name, initial_booking
+GROUP BY transaction, name
 ORDER BY transaction DESC;
