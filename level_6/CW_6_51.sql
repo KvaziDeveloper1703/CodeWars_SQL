@@ -35,16 +35,20 @@ Sort results by machine_id in descending order.
 */
 
 WITH ordered_processes AS (
-    SELECT machine_id, start_time, end_time, LEAD(start_time) OVER (PARTITION BY machine_id ORDER BY end_time) AS next_start_time
+    SELECT machine_id, start_time, end_time, LEAD(start_time) OVER (PARTITION BY machine_id ORDER BY start_time) AS next_start_time
     FROM process_times
 ),
-downtime_intervals AS (
-    SELECT machine_id, next_start_time - end_time AS downtime
+downtime AS (
+    SELECT machine_id, CAST(EXTRACT(EPOCH FROM (next_start_time - end_time)) AS BIGINT) AS downtime_seconds
     FROM ordered_processes
     WHERE next_start_time IS NOT NULL AND next_start_time > end_time
+),
+summed AS (
+    SELECT machine_id, SUM(downtime_seconds) AS total_seconds
+    FROM downtime
+    GROUP BY machine_id
 )
-SELECT machine_id, TO_CHAR(SUM(downtime), 'HH24:MI:SS') AS total_down_time
-FROM downtime_intervals
-GROUP BY machine_id
-HAVING COUNT(*) > 0
+SELECT machine_id, (total_seconds / 3600)::INT::TEXT || ':' || LPAD(((total_seconds % 3600) / 60)::TEXT, 2, '0') || ':' || LPAD((total_seconds % 60)::TEXT, 2, '0') AS total_down_time
+FROM summed
+WHERE total_seconds > 0
 ORDER BY machine_id DESC;
